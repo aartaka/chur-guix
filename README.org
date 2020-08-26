@@ -1,0 +1,35 @@
+#+TITLE: Chur
+
+Chur is a Guix channel providing the pentesting- and security-related packages not (yet) present in the upstream Guix.
+
+* Getting Started
+
+Chur can be installed as a [[https://www.gnu.org/software/guix/manual/en/html_node/Channels.html][Guix channel]]. To do so, add it to =~/.config/guix/channels.scm=: 
+#+BEGIN_SRC scheme
+  (cons*
+    (channel
+      (name 'chur)
+      (url "https://github.com/aartaka/chur-guix"))
+    %default-channels)
+#+END_SRC
+
+Then run =guix pull=.
+
+* Manifest
+
+Manifest file with all the Chur packages and all the packages from Guix/elsewhere you might need for pentesting is in the writing. You can help with it by opening an issue with the packages you find necessary in your workflow!
+
+* System Declaration
+
+There's no system declaration file for hardened and pentesting-ready system yet, so you can be a person to contribute it!
+
+[[https://cisofy.com/lynis/][Lynis]] can be handy in searching for security problems on your particular system, and its suggestions are the best starting points for the system declaration file.
+
+* Contributing
+
+You're welcome to contribute the packages you think Chur lacks! Some tips:
+- The packages you contribute should be related to Information Security in one way or another.
+- Use GNU Guix [[https://guix.gnu.org/manual/en/html_node/Coding-Style.html][Coding Style]] as a style reference.
+- Make sure that the package you contribute is not present in the recent Guix versions :)
+- If you cannot contribute the package yourself but need it implemented -- open an issue with a "Package Request" template.
+- The package division is not clear yet, so look at Kali and BlackArch in how they divide packages by categories and put the contributed packages in the same category, creating a new package-file if necessary.
