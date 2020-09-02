@@ -4,12 +4,10 @@ about: Want some package added to Chur? Pick this template then!
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
-### Motivation
+### What the software is and why it belongs to Chur:
 
-Describe what the software does and why it belongs to Chur, here.
 
 ### External links:
 
