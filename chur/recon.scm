@@ -18,47 +18,49 @@
   #:use-module (gnu packages xml))
 
 (define-public ctfr
-  (package
-   (name "ctfr")
-   (version "1.2")
-   (source (origin
-            (method git-fetch)
-            (uri (git-reference
-                  (url "https://github.com/UnaPibaGeek/ctfr.git")
-                  (commit "6c7fecdc6346c4f5322049e38f415d5bddaa420d")))
-            (sha256
-             (base32 "16facm1wcd1zk9h89q7m5hgpasqzmxm8sbl18ffiyg6zm4glib4p"))))
-   (build-system trivial-build-system)
-   (arguments
-    `(#:modules ((guix build utils))
-      #:builder
-      (begin
-        (use-modules (guix build utils))
-        (let* ((src (assoc-ref %build-inputs "source"))
-               (out (assoc-ref %outputs "out"))
-               (bin (string-append out "/bin")))
-          (mkdir-p bin)
-          (copy-recursively src out)
-          (with-directory-excursion bin
-            (call-with-output-file "ctfr"
-              (lambda (p)
-                (format p "#!~a
+  (let ((commit "6c7fecdc6346c4f5322049e38f415d5bddaa420d")
+        (revision "1"))
+    (package
+      (name "ctfr")
+      (version (git-version "1.2" revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url "https://github.com/UnaPibaGeek/ctfr.git")
+                      (commit "6c7fecdc6346c4f5322049e38f415d5bddaa420d")))
+                (sha256
+                 (base32 "16facm1wcd1zk9h89q7m5hgpasqzmxm8sbl18ffiyg6zm4glib4p"))))
+      (build-system trivial-build-system)
+      (arguments
+       `(#:modules ((guix build utils))
+         #:builder
+         (begin
+           (use-modules (guix build utils))
+           (let* ((src (assoc-ref %build-inputs "source"))
+                  (out (assoc-ref %outputs "out"))
+                  (bin (string-append out "/bin")))
+             (mkdir-p bin)
+             (copy-recursively src out)
+             (with-directory-excursion bin
+               (call-with-output-file "ctfr"
+                 (lambda (p)
+                   (format p "#!~a
 exec ~a ~a/ctfr.py \"$@\""
-                        (string-append (assoc-ref %build-inputs "bash") "/bin/bash")
-                        (string-append (assoc-ref %build-inputs "python") "/bin/python3")
-                        out)))
-            (chmod "ctfr" #o555)
-            #t)))))
-   (inputs `(("bash" ,bash)
-             ("python" ,python)))
-   (propagated-inputs `(("python-requests" ,python-requests)))
-   (synopsis
-    "Abusing Certificate Transparency logs for getting HTTPS websites subdomains.")
-   (description "Do you miss AXFR technique? This tool allows to get the subdomains from a HTTPS website in a few seconds.
+                           (string-append (assoc-ref %build-inputs "bash") "/bin/bash")
+                           (string-append (assoc-ref %build-inputs "python") "/bin/python3")
+                           out)))
+               (chmod "ctfr" #o555)
+               #t)))))
+      (inputs `(("bash" ,bash)
+                ("python" ,python)))
+      (propagated-inputs `(("python-requests" ,python-requests)))
+      (synopsis
+       "Abusing Certificate Transparency logs for getting HTTPS websites subdomains.")
+      (description "Do you miss AXFR technique? This tool allows to get the subdomains from a HTTPS website in a few seconds.
 How it works? CTFR does not use neither dictionary attack nor brute-force, it just abuses of Certificate Transparency logs.
 For more information about CT logs, check www.certificate-transparency.org and crt.sh.")
-   (home-page "https://github.com/UnaPibaGeek/ctfr")
-   (license license:gpl3)))
+      (home-page "https://github.com/UnaPibaGeek/ctfr")
+      (license license:gpl3))))
 
 (define-public perl-rpc-xml
   (package
@@ -91,43 +93,45 @@ The goal is to provide a client, a stand-alone server and an Apache/mod_perl con
   (license license:perl-license)))
 
 (define-public nikto
-  (package
-   (name "nikto")
-   (version "2.1.5")
-   (source (origin
-            (method git-fetch)
-            (uri (git-reference
-                  (url "https://github.com/sullo/nikto.git")
-                  (commit "d8eb05496f69c0dc703d19dc012d2547d0467705")))
-            (sha256
-             (base32 "0pkiw9chm3yn3s5bw5a07kq1rvyz6ij8k03i4p7syvgamzfsida4"))))
-   (build-system trivial-build-system)
-   (arguments
-    `(#:modules ((guix build utils))
-      #:builder (begin
-                  (use-modules (guix build utils))
-                  (let* ((src (assoc-ref %build-inputs "source"))
-                        (out (assoc-ref %outputs "out"))
-                        (bin (string-append out "/bin"))
-                        (bash (string-append (assoc-ref %build-inputs "bash") "/bin/bash"))
-                        (perl (string-append (assoc-ref %build-inputs "perl") "/bin/perl")))
-                    (mkdir-p bin)
-                    (copy-recursively src out)
-                    (with-directory-excursion bin
-                      (call-with-output-file "nikto"
-                        (lambda (p)
-                          (format p "#!~a
+  (let ((commit "d8eb05496f69c0dc703d19dc012d2547d0467705")
+        (revision "1"))
+    (package
+      (name "nikto")
+      (version (git-version "2.1.6" revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url "https://github.com/sullo/nikto.git")
+                      (commit commit)))
+                (sha256
+                 (base32 "0pkiw9chm3yn3s5bw5a07kq1rvyz6ij8k03i4p7syvgamzfsida4"))))
+      (build-system trivial-build-system)
+      (arguments
+       `(#:modules ((guix build utils))
+         #:builder (begin
+                     (use-modules (guix build utils))
+                     (let* ((src (assoc-ref %build-inputs "source"))
+                            (out (assoc-ref %outputs "out"))
+                            (bin (string-append out "/bin"))
+                            (bash (string-append (assoc-ref %build-inputs "bash") "/bin/bash"))
+                            (perl (string-append (assoc-ref %build-inputs "perl") "/bin/perl")))
+                       (mkdir-p bin)
+                       (copy-recursively src out)
+                       (with-directory-excursion bin
+                         (call-with-output-file "nikto"
+                           (lambda (p)
+                             (format p "#!~a
 exec ~a ~a/program/nikto.pl \"$@\"" bash perl out)))
-                      (chmod "nikto" #o555)
-                      #t)))))
-   (inputs `(("bash" ,bash)
-             ("perl" ,perl)))
-   (propagated-inputs `(("perl-net-ssleay" ,perl-net-ssleay)
-                        ("perl-rpc-xml" ,perl-rpc-xml)))
-   (synopsis "Nikto web server scanner")
-   (description "Nikto is a web server assessment tool. It is designed to find various default and insecure files, configurations and programs on any type of web server.")
-   (home-page "https://cirt.net/Nikto2")
-   (license license:gpl2)))
+                         (chmod "nikto" #o555)
+                         #t)))))
+      (inputs `(("bash" ,bash)
+                ("perl" ,perl)))
+      (propagated-inputs `(("perl-net-ssleay" ,perl-net-ssleay)
+                           ("perl-rpc-xml" ,perl-rpc-xml)))
+      (synopsis "Nikto web server scanner")
+      (description "Nikto is a web server assessment tool. It is designed to find various default and insecure files, configurations and programs on any type of web server.")
+      (home-page "https://cirt.net/Nikto2")
+      (license license:gpl2))))
 
 (define-public python-xlsxwriter
   (package
@@ -178,29 +182,31 @@ exec ~a ~a/program/nikto.pl \"$@\"" bash perl out)))
    (license #f)))
 
 (define-public theharvester
-  (package
-   (name "theharvester")
-   (version "3.1.0")
-   (source (origin
-            (method git-fetch)
-            (uri (git-reference
-                  (url "https://github.com/laramies/theHarvester.git")
-                  (commit "767723e408d8ce753c086842c7fff58bd29c0d64")))
-            (sha256
-             (base32 "0lxzxfa9wbzim50d2jmd27i57szd0grm1dfayhnym86jn01qpvn3"))))
-   (build-system python-build-system)
-   (inputs `(("python-gevent" ,python-gevent)
-             ("python-pyyaml" ,python-pyyaml)
-             ("python-grequests" ,python-grequests)
-             ("python-dnspython" ,python-dnspython)
-             ("python-shodan" ,python-shodan)
-             ("python-plotly" ,python-plotly)
-             ("python-pycares" ,python-pycares)
-             ("python-netaddr" ,python-netaddr)))
-   (synopsis "E-mails, subdomains and names Harvester - OSINT ")
-   (description "theHarvester is a very simple to use, yet powerful and effective tool designed to be used in the early stages of a
+  (let ((commit "ceb4c3b1527aa05eb92a028036a4b73d78eb389b")
+        (revision "1"))
+    (package
+      (name "theharvester")
+      (version (git-version "3.1.0" revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url "https://github.com/laramies/theHarvester.git")
+                      (commit commit)))
+                (sha256
+                 (base32 "0lxzxfa9wbzim50d2jmd27i57szd0grm1dfayhnym86jn01qpvn3"))))
+      (build-system python-build-system)
+      (inputs `(("python-gevent" ,python-gevent)
+                ("python-pyyaml" ,python-pyyaml)
+                ("python-grequests" ,python-grequests)
+                ("python-dnspython" ,python-dnspython)
+                ("python-shodan" ,python-shodan)
+                ("python-plotly" ,python-plotly)
+                ("python-pycares" ,python-pycares)
+                ("python-netaddr" ,python-netaddr)))
+      (synopsis "E-mails, subdomains and names Harvester - OSINT ")
+      (description "theHarvester is a very simple to use, yet powerful and effective tool designed to be used in the early stages of a
 penetration test or red team engagement. Use it for open source intelligence (OSINT) gathering to help determine a
 company's external threat landscape on the internet. The tool gathers emails, names, subdomains, IPs and URLs using
 multiple public data sources that include:")
-   (home-page "http://www.edge-security.com/")
-   (license license:gpl2)))
+      (home-page "http://www.edge-security.com/")
+      (license license:gpl2))))
