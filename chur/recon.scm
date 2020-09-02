@@ -9,10 +9,11 @@
   #:use-module (gnu packages bash)
   #:use-module (gnu packages check)
   #:use-module (gnu packages graph)
+  #:use-module (gnu packages perl)
+  #:use-module (gnu packages php)
   #:use-module (gnu packages python)
   #:use-module (gnu packages python-web)
   #:use-module (gnu packages python-xyz)
-  #:use-module (gnu packages perl)
   #:use-module (gnu packages tls)
   #:use-module (gnu packages web)
   #:use-module (gnu packages xml))
@@ -210,3 +211,42 @@ company's external threat landscape on the internet. The tool gathers emails, na
 multiple public data sources that include:")
       (home-page "http://www.edge-security.com/")
       (license license:gpl2))))
+
+(define-public red-hawk
+  (let ((commit "2c6cea98ad18cba8ecff148be379c2ecdf716e5b")
+        (revision "1"))
+    (package
+      (name "red-hawk")
+      (version (git-version "2.0.0" revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url "https://github.com/Tuhinshubhra/RED_HAWK.git")
+                      (commit commit)))
+                (sha256
+                 (base32 "02grvnszv59hmxcf2lr3gx9nxvv62pshhxsn0gmxhcl066sa8340"))))
+      (build-system trivial-build-system)
+      (arguments
+       `(#:modules ((guix build utils))
+         #:builder (begin
+                     (use-modules (guix build utils))
+                     (let* ((src (assoc-ref %build-inputs "source"))
+                            (out (assoc-ref %outputs "out"))
+                            (bin (string-append out "/bin"))
+                            (bash (string-append (assoc-ref %build-inputs "bash") "/bin/bash"))
+                            (php (string-append (assoc-ref %build-inputs "php") "/bin/php")))
+                       (mkdir-p bin)
+                       (copy-recursively src out)
+                       (with-directory-excursion bin
+                         (call-with-output-file "rhawk"
+                           (lambda (p)
+                             (format p "#!~a
+cd ~a && exec ~a ~a/rhawk.php \"$@\"" bash out php out)))
+                         (chmod "rhawk" #o555)
+                         #t)))))
+      (inputs `(("bash" ,bash)
+                ("php" ,php)))
+      (synopsis "All in one tool for Information Gathering and Vulnerability Scanning")
+      (description "All in one tool for Information Gathering, Vulnerability Scanning and Crawling. A must have tool for all penetration testers ")
+      (home-page "https://github.com/Tuhinshubhra/RED_HAWK")
+      (license license:expat))))

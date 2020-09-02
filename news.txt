@@ -1,7 +1,5 @@
 (channel-news
-  (version 0)
+  (version 1)
   (entry (commit "")
-         (title (en "Add some initial packages")
-                (ru "Добавил несколько изначальных пакетов"))
-         (body (en "New packages: @code{ctfr}, @code{theharvester}, @code{sqlmap}, @code{nikto} (no SSL support yet, help is welcomeb), @code{instashell}")
-               (ru "Новые пакеты: @code{ctfr}, @code{theharvester}, @code{sqlmap}, @code{nikto} (пока без поддержки SSL, буду рад помощи), @code{instashell}"))))
+         (title (en "Add red-hawk"))
+         (body (en "New packages: @code{rew-hawk}"))))
