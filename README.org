@@ -15,6 +15,17 @@ Chur can be installed as a [[https://www.gnu.org/software/guix/manual/en/html_no
 
 Then run =guix pull=.
 
+* Why?
+** Why new channel
+This channel was created out of perfectionism and reluctance to commit changes in several rounds. If some of these packages are to be commited to main Guix repo, these should be good-written and fully-functional ones. This channel is, then, just a testing ground for the packages that will (possibly) find their way into Guix and the place for the (possibly proprietary) ones that somewhy won't.
+** Why "Chur"?
+Chur is the ancient Slavic god of borders and private property. Small etymology section:
+- Up to this day, people in Russia (and, I bet, in some other Slavic countries) say "(Be) Chur on me! [Чур меня!]" when they want to be guarded from the bad things happening around.
+- "Chur, it's me! [Чур, я!]" is, oppositely, a manifestation of a person's property and willingness to own some thing/role/idea.
+
+All in all, even though Chur as a god may have not existed at all (you never know...), it's a good concept to tie to Pentesting-related channel. Pentesting, after all, is about drawing boundaries and outlining property -- it's exactly what Chur is responsible for :)
+
+Use this channel for good and be Chur on you!
 * Manifest
 
 Manifest file with all the Chur packages and all the packages from Guix/elsewhere you might need for pentesting is in the writing. You can help with it by opening an issue with the packages you find necessary in your workflow!
