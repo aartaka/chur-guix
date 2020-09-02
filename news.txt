@@ -1,5 +1,5 @@
 (channel-news
-  (version 1)
+  (version 2)
   (entry (commit "")
-         (title (en "Add red-hawk"))
-         (body (en "New packages: @code{rew-hawk}"))))
+         (title (en "Add Infoga"))
+         (body (en "New packages: @code{infoga}"))))

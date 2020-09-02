@@ -250,3 +250,45 @@ cd ~a && exec ~a ~a/rhawk.php \"$@\"" bash out php out)))
       (description "All in one tool for Information Gathering, Vulnerability Scanning and Crawling. A must have tool for all penetration testers ")
       (home-page "https://github.com/Tuhinshubhra/RED_HAWK")
       (license license:expat))))
+
+(define-public infoga
+  (let ((commit "6834c6f863c2bdc92cc808934bb293571d1939c1")
+        (revision "1"))
+    (package
+      (name "infoga")
+      (version (git-version "0.1.5" revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url "https://github.com/m4ll0k/Infoga.git")
+                      (commit commit)))
+                (sha256
+                 (base32 "0zvgh2j0gjzndbi4s2qs4rzfwpvafad9hjarcg8f09205z2zglw8"))))
+      (build-system trivial-build-system)
+      (arguments
+       `(#:modules ((guix build utils))
+         #:builder (begin
+                     (use-modules (guix build utils))
+                     (let* ((src (assoc-ref %build-inputs "source"))
+                            (out (assoc-ref %outputs "out"))
+                            (bin (string-append out "/bin"))
+                            (bash (string-append (assoc-ref %build-inputs "bash") "/bin/bash"))
+                            (python (string-append (assoc-ref %build-inputs "python") "/bin/python3")))
+                       (mkdir-p bin)
+                       (copy-recursively src out)
+                       (with-directory-excursion bin
+                         (call-with-output-file "infoga"
+                           (lambda (p)
+                             (format p "#!~a
+exec ~a ~a/infoga.py \"$@\"" bash python out)))
+                         (chmod "infoga" #o555)
+                         #t)))))
+      (inputs `(("python" ,python)
+                ("bash" ,bash)))
+      (propagated-inputs `(("python-requests" ,python-requests)
+                           ("python-colorama" ,python-colorama)
+                           ("python-urllib3" ,python-urllib3)))
+      (synopsis "Email OSINT")
+      (description "Infoga is a tool gathering email accounts informations (ip,hostname,country,...) from different public source (search engines, pgp key servers and shodan) and check if emails was leaked using haveibeenpwned.com API. Is a really simple tool, but very effective for the early stages of a penetration test or just to know the visibility of your company in the Internet.")
+      (home-page "https://github.com/m4ll0k/Infoga")
+      (license license:gpl3))))
