@@ -1,5 +1,8 @@
-#+TITLE: Chur
+#+TITLE:Chur
 
+ARCHIVED: Pentesting is not the first priority for me now, so this
+channel is not really maintainable.
+ 
 Chur is a Guix channel providing the pentesting- and security-related packages not (yet) present in the upstream Guix.
 
 * Getting Started
